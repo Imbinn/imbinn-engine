@@ -19,7 +19,7 @@ class App extends Component {
             .substr(0, 6)
             .toUpperCase();
 
-        const newGame = { id };
+        const newGame = { id, createdAt: Date.now() };
         firebase.push('games', newGame);
     }
 
