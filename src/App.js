@@ -4,10 +4,17 @@ import { withFirebase } from 'react-redux-firebase';
 
 import logo from './logo.svg';
 import './App.css';
+import Users from './components/Users';
 
 class App extends Component {
     static propTypes = {
         firebase: PropTypes.shape().isRequired,
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = { gameId: '', gameKey: '' };
     }
 
     createGame = () => {
@@ -20,7 +27,9 @@ class App extends Component {
             .toUpperCase();
 
         const newGame = { id, createdAt: Date.now() };
-        firebase.push('games', newGame);
+        firebase.push('games', newGame).then((snapshot) => {
+            this.setState({ gameId: id, gameKey: snapshot.key });
+        });
     }
 
     render() {
@@ -30,9 +39,15 @@ class App extends Component {
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Imbinn er mættur!</h1>
                 </header>
-                <p className="App-intro">
-                    <button onClick={this.createGame}>Hefja leik</button>
-                </p>
+                <div className="App-intro">
+                    {this.state.gameId &&
+                        <span>
+                            <span>Game ID: {this.state.gameId}</span>
+                            <Users gameKey={this.state.gameKey} />
+                        </span>
+                    }
+                    {!this.state.gameId && <button onClick={this.createGame}>Hefja leik</button>}
+                </div>
             </div>
         );
     }
