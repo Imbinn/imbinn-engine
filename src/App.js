@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withFirebase } from 'react-redux-firebase';
+
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Imbinn!</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    static propTypes = {
+        firebase: PropTypes.shape().isRequired,
+    }
+
+    createGame = () => {
+        const { firebase } = this.props;
+        const id = Math
+            .random()
+            .toString(36)
+            .replace(/[^a-z]+/g, '')
+            .substr(0, 6)
+            .toUpperCase();
+
+        const newGame = { id };
+        firebase.push('games', newGame);
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <h1 className="App-title">Imbinn er mættur!</h1>
+                </header>
+                <p className="App-intro">
+                    <button onClick={this.createGame}>Hefja leik</button>
+                </p>
+            </div>
+        );
+    }
 }
 
-export default App;
+export default withFirebase(App);
