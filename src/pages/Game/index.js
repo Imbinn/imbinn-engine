@@ -17,11 +17,18 @@ GameContainer.propTypes = {
 };
 
 const enhance = compose(
-    firebaseConnect(props => ([{
-        path: 'games',
-        queryParams: ['orderByChild=id', `equalTo=${props.match.params.gameId}`],
-        storeAs: 'game',
-    }])),
+    firebaseConnect(props => ([
+        {
+            path: 'games',
+            queryParams: ['orderByChild=id', `equalTo=${props.match.params.gameId}`],
+            storeAs: 'game',
+        },
+        {
+            path: 'rounds',
+            queryParams: ['orderByChild=type', 'equalTo=quiz'],
+            storeAs: 'quiz',
+        },
+    ])),
     connect(({ firebase: { data } }) => {
         if (!data.game) {
             return {};

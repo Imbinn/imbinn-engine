@@ -5,7 +5,7 @@ import styles from './styles';
 
 const Home = props => (
     <div style={styles.container}>
-        <button style={styles.button} onClick={props.createGame}>Hefja leik</button>
+        <button style={styles.button} onClick={props.createGame}>Nýr leikur</button>
     </div>
 );
 
