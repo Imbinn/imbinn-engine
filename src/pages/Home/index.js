@@ -21,9 +21,7 @@ class HomeContainer extends Component {
             .toUpperCase();
 
         const newGame = { id, createdAt: Date.now() };
-        firebase.push('games', newGame).then((snapshot) => {
-            // this.setState({ gameId: id, gameKey: snapshot.key });
-
+        firebase.push('games', newGame).then(() => {
             history.push(`/game/${id}`);
         });
     }
