@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withFirebase } from 'react-redux-firebase';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
-import Users from './components/Users';
+
+// pages
+
+import Home from './pages/Home';
+import Game from './pages/Game';
 
 class App extends Component {
     static propTypes = {
@@ -34,21 +43,17 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Imbinn er mættur!</h1>
-                </header>
-                <div className="App-intro">
-                    {this.state.gameId &&
-                        <span>
-                            <span>Game ID: {this.state.gameId}</span>
-                            <Users gameKey={this.state.gameKey} />
-                        </span>
-                    }
-                    {!this.state.gameId && <button onClick={this.createGame}>Hefja leik</button>}
-                </div>
-            </div>
+            <Router>
+                <React.Fragment>
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo" />
+                        <h1 className="App-title">Imbinn er mættur!</h1>
+                    </header>
+
+                    <Route exact path="/" component={Home} />
+                    <Route path="/game/:gameId" component={Game} />
+                </React.Fragment>
+            </Router>
         );
     }
 }

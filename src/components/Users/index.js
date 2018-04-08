@@ -4,19 +4,12 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-const Users = ({ users }) => (
-    <ul>
-        {users.map(user => <li key={user.id}>{user.username}</li>)}
-    </ul>
-);
+import Users from './layout';
 
-Users.defaultProps = {
-    users: [],
-};
+const UsersContainer = props => <Users {...props} />;
 
-Users.propTypes = {
+UsersContainer.propTypes = {
     gameKey: PropTypes.string.isRequired,
-    users: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 const enhance = compose(
@@ -33,8 +26,9 @@ const enhance = compose(
             id: key,
             ...data.users[key],
         }));
+
         return { users };
     }),
 );
 
-export default enhance(Users);
+export default enhance(UsersContainer);
