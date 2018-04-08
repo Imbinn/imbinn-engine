@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './styles';
 import Users from '../../components/Users';
 
 const Game = props => (
-    <React.Fragment>
+    <div style={styles.container}>
         <span>Spilakóði: {props.game.id}</span>
         {props.game.key && <Users gameKey={props.game.key} />}
-    </React.Fragment>
+    </div>
 );
 
 Game.defaultProps = {
