@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import styles from './styles';
 import Users from '../../components/Users';
@@ -13,11 +13,14 @@ const Game = props => (
         {props.game.key && <Users users={props.game.users} />}
         {props.round.key && <QuizText round={props.round} />}
 
-        <button>Byrja</button>
+        { props.game.key &&
+            <Link to={`/game/${props.game.id}/round/0`}><button>Byrja</button></Link>
+        }
+
 
         <Route
             path="/game/:gameId/round/:roundIndex"
-            render={() => <RoundLoader rounds={props.game.rounds} />}
+            render={foo => <RoundLoader {...foo} rounds={props.game.rounds} />}
         />
     </div>
 );

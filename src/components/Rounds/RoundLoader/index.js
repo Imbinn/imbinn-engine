@@ -28,6 +28,7 @@ export class RoundLoaderContainer extends PureComponent {
             },
             rounds,
         } = this.props;
+        if (!rounds) return null;
         return (
             <RoundLoader
                 component={ROUND_TYPE_TO_COMPONENT[rounds[roundIndex].type]}
