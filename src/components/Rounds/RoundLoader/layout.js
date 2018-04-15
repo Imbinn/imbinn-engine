@@ -1,6 +1,11 @@
 import React from 'react';
-// import QuizText from '../Quiz/Text';
+import PropTypes from 'prop-types';
 
-const RoundLoader = props => <div>{props.foo}</div>;
+const RoundLoader = props => <div>{React.createElement(props.component, { meta: props.meta })}</div>;
+
+RoundLoader.propTypes = {
+    component: PropTypes.element.isRequired,
+    meta: PropTypes.shape().isRequired,
+};
 
 export default RoundLoader;
