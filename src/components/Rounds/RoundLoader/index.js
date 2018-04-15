@@ -5,7 +5,7 @@ import RoundLoader from './layout';
 import QuizText from '../Quiz/Text';
 
 const ROUND_TYPE_TO_COMPONENT = {
-    text: QuizText,
+    quiz: QuizText,
 };
 
 export class RoundLoaderContainer extends PureComponent {
@@ -31,6 +31,7 @@ export class RoundLoaderContainer extends PureComponent {
         return (
             <RoundLoader
                 component={ROUND_TYPE_TO_COMPONENT[rounds[roundIndex].type]}
+                meta={rounds[roundIndex].meta}
             />
         );
     }

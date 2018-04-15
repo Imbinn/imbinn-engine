@@ -5,12 +5,21 @@ import styles from './styles';
 
 const QuizText = props => (
     <div style={styles.container}>
-        Hello from QuizText!
+        {props.meta.quizText}
+        {props.meta.quizOptions.map(option => <p>{option.option}</p>)}
     </div>
 );
 
 QuizText.propTypes = {
-    round: PropTypes.shape().isRequired,
+    meta: PropTypes.shape({
+        quizText: PropTypes.string.isRequired,
+        quizOptions: PropTypes.arrayOf(
+            PropTypes.shape({
+                option: PropTypes.string.isRequired,
+                correct: PropTypes.bool.isRequired,
+            }).isRequired,
+        ).isRequired,
+    }).isRequired,
 };
 
 export default QuizText;
