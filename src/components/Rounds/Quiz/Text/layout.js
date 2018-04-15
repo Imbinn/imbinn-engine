@@ -6,7 +6,7 @@ import styles from './styles';
 const QuizText = props => (
     <div style={styles.container}>
         {props.meta.quizText}
-        {props.meta.quizOptions.map(option => <p>{option.option}</p>)}
+        {props.meta.quizOptions.map(option => <p key={option.option}>{option.option}</p>)}
     </div>
 );
 

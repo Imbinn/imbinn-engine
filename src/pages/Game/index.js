@@ -6,15 +6,28 @@ import { connect } from 'react-redux';
 
 import Game from './layout';
 
-const GameContainer = props => <Game {...props} />;
-
-GameContainer.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            gameId: PropTypes.string.isRequired,
+class GameContainer extends React.Component {
+    static propTypes = {
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                gameId: PropTypes.string.isRequired,
+            }).isRequired,
         }).isRequired,
-    }).isRequired,
-};
+    }
+
+    onRoundComplete = () => {
+        alert('awyiiih');
+    }
+
+    render() {
+        return (
+            <Game
+                {...this.props}
+                onRoundComplete={this.onRoundComplete}
+            />
+        );
+    }
+}
 
 const enhance = compose(
     firebaseConnect(props => ([
@@ -23,11 +36,6 @@ const enhance = compose(
             queryParams: ['orderByChild=id', `equalTo=${props.match.params.gameId}`],
             storeAs: 'game',
         },
-        // {
-        //     path: 'rounds',
-        //     queryParams: ['orderByChild=type', 'equalTo=quiz'],
-        //     storeAs: 'round',
-        // },
     ])),
     connect(({ firebase: { data } }) => {
         let game = {};
@@ -39,14 +47,6 @@ const enhance = compose(
                 ...data.game[key],
             };
         }
-
-        // if (data.round) {
-        //     const key = Object.keys(data.round)[0];
-        //     round = {
-        //         key,
-        //         ...data.round[key],
-        //     };
-        // }
 
         return { game };
     }),
