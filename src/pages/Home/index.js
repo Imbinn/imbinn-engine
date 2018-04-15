@@ -11,15 +11,38 @@ class HomeContainer extends Component {
         history: PropTypes.shape().isRequired,
     }
 
-    getRounds = () =>
+    getAvailableRoundKeys = () =>
         new Promise((resolve) => {
             this.props.firebase
                 .database()
                 .ref('rounds')
-                .once('child_added', (snapshot) => {
-                    resolve(snapshot);
+                .on('value', (snapshot) => {
+                    const roundIds = [];
+                    snapshot.forEach((roundSnap) => {
+                        roundIds.push(roundSnap.key);
+                    });
+
+                    resolve(roundIds);
                 });
         });
+
+    getRandomRounds = async (roundKeys) => {
+        // TODO, pick a random round
+        const theRoundKeyToUseForNow = roundKeys[0];
+
+        return new Promise((resolve) => {
+            this.props.firebase
+                .database()
+                .ref('rounds')
+                .child(`${theRoundKeyToUseForNow}`)
+                .on('value', (snapshot) => {
+                    resolve([{
+                        key: snapshot.key,
+                        ...snapshot.val(),
+                    }]);
+                });
+        });
+    }
 
     createGame = async () => {
         const { firebase, history } = this.props;
@@ -30,12 +53,10 @@ class HomeContainer extends Component {
             .substr(0, 6)
             .toUpperCase();
 
-        const rounds = await this.getRounds();
+        const availableRoundKeys = await this.getAvailableRoundKeys();
+        const randomRounds = await this.getRandomRounds(availableRoundKeys);
 
-        console.log(rounds.ref());
-        debugger;
-
-        const newGame = { id, createdAt: Date.now() };
+        const newGame = { id, createdAt: Date.now(), rounds: randomRounds };
         firebase.push('games', newGame).then(() => {
             history.push(`/game/${id}`);
         });
