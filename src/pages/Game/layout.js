@@ -8,17 +8,20 @@ import RoundLoader from '../../components/Rounds/RoundLoader';
 
 const Game = props => (
     <div style={styles.container}>
-        <span>Spilakóði: {props.game.id}</span>
-        {props.game.key && <Users users={props.game.users} />}
+        <div style={styles.codeContainer}>
+            <span>Spilakóði: {props.game.id}</span>
+            {props.game.key && <Users users={props.game.users} />}
+            { props.game.key &&
+                <Link to={`/game/${props.game.id}/round/0`}><button>Byrja</button></Link>
+            }
+        </div>
+        <div>
+            <Route
+                path="/game/:gameId/round/:roundIndex"
+                render={foo => <RoundLoader {...foo} rounds={props.game.rounds} />}
+            />
+        </div>
 
-        { props.game.key &&
-            <Link to={`/game/${props.game.id}/round/0`}><button>Byrja</button></Link>
-        }
-
-        <Route
-            path="/game/:gameId/round/:roundIndex"
-            render={foo => <RoundLoader {...foo} rounds={props.game.rounds} />}
-        />
     </div>
 );
 
