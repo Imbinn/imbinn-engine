@@ -11,7 +11,17 @@ class HomeContainer extends Component {
         history: PropTypes.shape().isRequired,
     }
 
-    createGame = () => {
+    getRounds = () =>
+        new Promise((resolve) => {
+            this.props.firebase
+                .database()
+                .ref('rounds')
+                .once('child_added', (snapshot) => {
+                    resolve(snapshot);
+                });
+        });
+
+    createGame = async () => {
         const { firebase, history } = this.props;
         const id = Math
             .random()
@@ -19,6 +29,11 @@ class HomeContainer extends Component {
             .replace(/[^a-z]+/g, '')
             .substr(0, 6)
             .toUpperCase();
+
+        const rounds = await this.getRounds();
+
+        console.log(rounds.ref());
+        debugger;
 
         const newGame = { id, createdAt: Date.now() };
         firebase.push('games', newGame).then(() => {
