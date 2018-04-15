@@ -5,15 +5,15 @@ import styles from './styles';
 
 const QuizText = props => (
     <div style={styles.container}>
-        {props.meta.quizText}
-        {props.meta.quizOptions.map(option => <p>{option.option}</p>)}
+        {props.meta.question}
+        {props.meta.options.map(option => <p>{option.option}</p>)}
     </div>
 );
 
 QuizText.propTypes = {
     meta: PropTypes.shape({
-        quizText: PropTypes.string.isRequired,
-        quizOptions: PropTypes.arrayOf(
+        question: PropTypes.string.isRequired,
+        options: PropTypes.arrayOf(
             PropTypes.shape({
                 option: PropTypes.string.isRequired,
                 correct: PropTypes.bool.isRequired,

@@ -2,9 +2,9 @@
     "1": {
         "type": "quiz",
         "meta": {
-            "quizType": "text",
-            "quizText": "Allir vita að besta pylsan er ein með öllu nema hráum! En hvað eru margir Bæjarins Beztu sölustaðir?",
-            "quizOptions": [
+            "type": "text",
+            "question": "Allir vita að besta pylsan er ein með öllu nema hráum! En hvað eru margir Bæjarins Beztu sölustaðir?",
+            "options": [
                 {
                     "option": "4",
                     "correct": false
