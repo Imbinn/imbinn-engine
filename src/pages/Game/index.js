@@ -26,19 +26,33 @@ const enhance = compose(
         {
             path: 'rounds',
             queryParams: ['orderByChild=type', 'equalTo=quiz'],
-            storeAs: 'quiz',
+            storeAs: 'round',
         },
     ])),
     connect(({ firebase: { data } }) => {
-        if (!data.game) {
-            return {};
+        let game = {};
+        let round = {};
+
+        if (data.game) {
+            const key = Object.keys(data.game)[0];
+            game = {
+                key,
+                ...data.game[key],
+            };
         }
-        const key = Object.keys(data.game)[0];
-        const game = {
-            key,
-            ...data.game[key],
+
+        if (data.round) {
+            const key = Object.keys(data.round)[0];
+            round = {
+                key,
+                ...data.round[key],
+            };
+        }
+
+        return {
+            game,
+            round,
         };
-        return { game };
     }),
 );
 
