@@ -17,7 +17,7 @@ const Game = props => (
 
         <Route
             path="/game/:gameId/round/:roundIndex"
-            render={() => <RoundLoader foo="yolo" />}
+            render={() => <RoundLoader rounds={props.game.rounds} />}
         />
     </div>
 );

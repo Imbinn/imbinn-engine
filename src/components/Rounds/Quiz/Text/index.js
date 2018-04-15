@@ -2,11 +2,7 @@ import React from 'react';
 
 import QuizText from './layout';
 
-class QuizTextContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+class QuizTextContainer extends React.PureComponent {
     render() {
         return (
             <QuizText {...this.props} />
