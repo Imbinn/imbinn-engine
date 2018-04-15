@@ -2,10 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import RoundLoader from './layout';
-import QuizText from '../Quiz/Text';
+import QuizText from '../Rounds/Quiz/Text';
 
 const ROUND_TYPE_TO_COMPONENT = {
-    quiz: QuizText,
+    quiz: {
+        text: QuizText,
+    },
 };
 
 export class RoundLoaderContainer extends PureComponent {
@@ -16,7 +18,7 @@ export class RoundLoaderContainer extends PureComponent {
                 roundIndex: PropTypes.string.isRequired,
             }).isRequired,
         }).isRequired,
-        rounds: PropTypes.shape().isRequired,
+        rounds: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     }
 
     render() {
@@ -29,11 +31,14 @@ export class RoundLoaderContainer extends PureComponent {
             rounds,
         } = this.props;
         if (!rounds) return null;
+
+        const round = rounds[roundIndex];
+        const roundComponent = ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type];
+
         return (
-            <RoundLoader
-                component={ROUND_TYPE_TO_COMPONENT[rounds[roundIndex].type]}
-                meta={rounds[roundIndex].meta}
-            />
+            <RoundLoader>
+                { React.createElement(roundComponent, { ...round })}
+            </RoundLoader>
         );
     }
 }

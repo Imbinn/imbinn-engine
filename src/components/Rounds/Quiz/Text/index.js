@@ -2,6 +2,8 @@ import React from 'react';
 
 import QuizText from './layout';
 
+import withRound from '../../../RoundLoader/withRound';
+
 class QuizTextContainer extends React.PureComponent {
     render() {
         return (
@@ -10,4 +12,4 @@ class QuizTextContainer extends React.PureComponent {
     }
 }
 
-export default QuizTextContainer;
+export default withRound(QuizTextContainer);
