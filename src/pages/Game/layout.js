@@ -25,9 +25,7 @@ const Game = props => (
     </div>
 );
 
-Game.defaultProps = {
-    game: {},
-};
+Game.defaultProps = { game: {} };
 
 Game.propTypes = {
     game: PropTypes.shape({
