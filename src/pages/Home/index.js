@@ -1,51 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withFirebase } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
 
 import Home from './layout';
+import withGamesResource from '../../stores/game/withGameResource';
+import withRoundsResource from '../../stores/rounds/withRoundsResource';
 
 class HomeContainer extends Component {
     static propTypes = {
-        firebase: PropTypes.shape().isRequired,
         history: PropTypes.shape().isRequired,
+        createGame: PropTypes.func.isRequired,
+        getRounds: PropTypes.func.isRequired,
+        rounds: PropTypes.arrayOf(PropTypes.string),
     }
 
-    getAvailableRoundKeys = () =>
-        new Promise((resolve) => {
-            this.props.firebase
-                .database()
-                .ref('rounds')
-                .on('value', (snapshot) => {
-                    const roundIds = [];
-                    snapshot.forEach((roundSnap) => {
-                        roundIds.push(roundSnap.key);
-                    });
-
-                    resolve(roundIds);
-                });
-        });
-
-    getRandomRounds = async (roundKeys) => {
-        // TODO, pick a random round
-        const theRoundKeyToUseForNow = roundKeys[0];
-
-        return new Promise((resolve) => {
-            this.props.firebase
-                .database()
-                .ref('rounds')
-                .child(`${theRoundKeyToUseForNow}`)
-                .on('value', (snapshot) => {
-                    resolve([{
-                        key: snapshot.key,
-                        ...snapshot.val(),
-                    }]);
-                });
-        });
+    static defaultProps = {
+        rounds: null,
     }
 
-    createGame = async () => {
-        const { firebase, history } = this.props;
+    componentWillMount = () => {
+        const { getRounds } = this.props;
+
+        getRounds();
+    }
+
+    onCreateGame = async () => {
+        const {
+            history,
+            createGame,
+            rounds,
+        } = this.props;
+
         const id = Math
             .random()
             .toString(36)
@@ -53,21 +38,21 @@ class HomeContainer extends Component {
             .substr(0, 6)
             .toUpperCase();
 
-        const availableRoundKeys = await this.getAvailableRoundKeys();
-        const randomRounds = await this.getRandomRounds(availableRoundKeys);
+        await createGame(id, rounds); // TODO: select a random subset of rounds
 
-        const newGame = { id, createdAt: Date.now(), rounds: randomRounds };
-        firebase.push('games', newGame).then(() => {
-            history.push(`/game/${id}`);
-        });
+        history.push(`/game/${id}`);
     }
 
     render = () => (
         <Home
             {...this.props}
-            createGame={this.createGame}
+            onCreateGame={this.onCreateGame}
         />
     );
 }
 
-export default withFirebase(withRouter(HomeContainer));
+export default withGamesResource(
+    withRoundsResource(
+        withRouter(HomeContainer),
+    ),
+);

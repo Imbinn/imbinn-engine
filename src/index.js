@@ -1,26 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers, compose } from 'redux';
-import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleWare from 'redux-thunk';
 import firebase from 'firebase';
 
-import App from './App';
 import './index.css';
+import App from './App';
 import { firebaseConfig } from './config/firebase';
+
+// reducers
+import game from './stores/game/reducers';
+import { round, rounds } from './stores/rounds/reducers';
 
 firebase.initializeApp(firebaseConfig);
 
-const createStoreWithFirebase = compose(
-    reactReduxFirebase(firebase),
-)(createStore);
-
 const rootReducer = combineReducers({
-    firebase: firebaseReducer,
+    game,
+    round,
+    rounds,
 });
 
-const initialState = {};
-const store = createStoreWithFirebase(rootReducer, initialState);
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunkMiddleWare),
+);
 
 ReactDOM.render(
     <Provider store={store}>

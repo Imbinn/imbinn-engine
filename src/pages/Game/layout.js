@@ -1,48 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Link } from 'react-router-dom';
 
 import styles from './styles';
 import Users from '../../components/Users';
 import RoundLoader from '../../components/RoundLoader';
 
-const Game = props => (
-    <div style={styles.container}>
-        <div style={styles.codeContainer}>
-            <span>Spilakóði: {props.game.id}</span>
-            { props.game.key && <Users users={props.game.users} /> }
-            { props.game.key &&
-                <Link to={`/game/${props.game.id}/round/0`}><button>Byrja</button></Link>
-            }
-        </div>
-        <div>
-            { props.game.key &&
-                <Route
-                    path="/game/:gameId/round/:roundIndex"
-                    render={routeProps => (
-                        <RoundLoader
-                            {...routeProps}
-                            rounds={props.game.rounds}
-                            onRoundComplete={props.onRoundComplete}
-                        />
-                    )}
-                />
-            }
-        </div>
+export class Game extends React.PureComponent {
+    static defaultProps = {
+        game: null,
+    }
 
-    </div>
-);
+    static propTypes = {
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                gameId: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
+        game: PropTypes.shape({
+            key: PropTypes.string,
+            id: PropTypes.string,
+            currentRoundIndex: PropTypes.number,
+            startedAt: PropTypes.number,
+            finishedAt: PropTypes.number,
+            users: PropTypes.shape(),
+            rounds: PropTypes.arrayOf(PropTypes.string),
+        }),
+        getGame: PropTypes.func.isRequired,
+        startGame: PropTypes.func.isRequired,
+        isLoadingGame: PropTypes.bool.isRequired,
+    }
 
-Game.defaultProps = { game: {} };
+    componentWillMount = () => {
+        const {
+            getGame,
+            match: { params: { gameId } },
+        } = this.props;
 
-Game.propTypes = {
-    game: PropTypes.shape({
-        key: PropTypes.string,
-        id: PropTypes.string,
-        users: PropTypes.shape(),
-        rounds: PropTypes.arrayOf(PropTypes.shape()),
-    }),
-    onRoundComplete: PropTypes.func.isRequired,
-};
+        getGame(gameId);
+    }
+
+    render() {
+        const {
+            game,
+            startGame,
+            isLoadingGame,
+        } = this.props;
+
+        return (
+            <React.Fragment>
+                {isLoadingGame && <span>Hleð upplýsingum um leik</span>}
+
+                {game && !game.startedAt &&
+                    <button onClick={() => startGame(game.key)}>Byrja</button>
+                }
+
+                {game && game.startedAt &&
+                    <div style={styles.container}>
+                        <div>
+                            <div>Spilakóði: {game.id}</div>
+                            <div>Ránd {game.currentRound + 1} / {game.rounds.length}</div>
+                            <Users users={game.users} />
+                        </div>
+                        <div>
+                            <RoundLoader
+                                roundIndex={game.currentRound}
+                                gameRounds={game.rounds}
+                            />
+                        </div>
+                    </div>
+                }
+
+            </React.Fragment>
+        );
+    }
+}
 
 export default Game;

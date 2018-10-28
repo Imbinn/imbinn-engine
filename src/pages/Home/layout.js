@@ -5,12 +5,12 @@ import styles from './styles';
 
 const Home = props => (
     <div style={styles.container}>
-        <button style={styles.button} onClick={props.createGame}>Nýr leikur</button>
+        <button style={styles.button} onClick={props.onCreateGame}>Nýr leikur</button>
     </div>
 );
 
 Home.propTypes = {
-    createGame: PropTypes.func.isRequired,
+    onCreateGame: PropTypes.func.isRequired,
 };
 
 export default Home;

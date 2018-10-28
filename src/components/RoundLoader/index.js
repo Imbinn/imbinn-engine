@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import RoundLoader from './layout';
 import QuizText from '../Rounds/Quiz/Text';
+import withRoundsResource from '../../stores/rounds/withRoundsResource';
 
 const ROUND_TYPE_TO_COMPONENT = {
     quiz: {
@@ -12,35 +12,41 @@ const ROUND_TYPE_TO_COMPONENT = {
 
 export class RoundLoaderContainer extends PureComponent {
     static propTypes = {
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                gameId: PropTypes.string.isRequired,
-                roundIndex: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
-        rounds: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+        roundIndex: PropTypes.number.isRequired,
+        gameRounds: PropTypes.arrayOf(PropTypes.string).isRequired,
+        getRound: PropTypes.func.isRequired,
+        isLoadingRound: PropTypes.bool.isRequired,
+        round: PropTypes.shape(),
+    }
+
+    static defaultProps = {
+        round: null,
+    }
+
+    componentWillMount = () => {
+        const {
+            gameRounds,
+            roundIndex,
+            getRound,
+        } = this.props;
+
+        const roundKey = gameRounds[roundIndex];
+        getRound(roundKey);
     }
 
     render() {
         const {
-            match: {
-                params: {
-                    roundIndex,
-                },
-            },
-            rounds,
+            round,
+            isLoadingRound,
         } = this.props;
-        if (!rounds) return null;
-
-        const round = rounds[roundIndex];
-        const roundComponent = ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type];
 
         return (
-            <RoundLoader>
-                { React.createElement(roundComponent, { ...round })}
-            </RoundLoader>
+            <React.Fragment>
+                { isLoadingRound && 'loading' }
+                { round && React.createElement(ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type], { ...round })}
+            </React.Fragment>
         );
     }
 }
 
-export default RoundLoaderContainer;
+export default withRoundsResource(RoundLoaderContainer);
