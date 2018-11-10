@@ -34,6 +34,12 @@ export class RoundLoaderContainer extends PureComponent {
         getRound(roundKey);
     }
 
+    getRoundComponentByType = round =>
+        React.createElement(
+            ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type],
+            { ...round },
+        )
+
     render() {
         const {
             round,
@@ -43,7 +49,7 @@ export class RoundLoaderContainer extends PureComponent {
         return (
             <React.Fragment>
                 { isLoadingRound && 'loading' }
-                { round && React.createElement(ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type], { ...round })}
+                { round && this.getRoundComponentByType(round)}
             </React.Fragment>
         );
     }

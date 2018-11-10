@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleWare from 'redux-thunk';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 import './index.css';
 import App from './App';

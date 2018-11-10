@@ -24,15 +24,18 @@
             ]
         },
         "stages": {
-            "questioning": {
+            "0": {
+                "name": "questioning",
                 "transition": 2000,
                 "duration": 5000
             },
-            "answering": {
+            "1": {
+                "name": "answering",
                 "transition": 2000,
                 "duration": 10000
             },
-            "resulting": {
+            "2": {
+                "name": "resulting",
                 "transition": 2000,
                 "duration": 10000
             }

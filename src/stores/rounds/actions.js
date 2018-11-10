@@ -1,4 +1,5 @@
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import {
     GET_ROUNDS_REQUEST,
@@ -10,7 +11,7 @@ import {
 
 export const getRounds = () => async (dispatch) => {
     dispatch({ type: GET_ROUNDS_REQUEST });
-    database().ref('/rounds')
+    firebase.database().ref('/rounds')
         .on('value', (snapshot) => {
             // TODO: reducer ?
             const roundIds = [];
@@ -28,7 +29,7 @@ export const getRounds = () => async (dispatch) => {
 export const getRound = key => async (dispatch) => {
     dispatch({ type: GET_ROUND_REQUEST });
 
-    database().ref(`/rounds/${key}`)
+    firebase.database().ref(`/rounds/${key}`)
         .on('value', (snapshot) => {
             if (!snapshot.key) {
                 dispatch({ type: GET_ROUND_FAILURE });

@@ -1,4 +1,5 @@
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import {
     CREATE_GAME_REQUEST,
@@ -18,14 +19,14 @@ export const createGame = (id, rounds) => async (dispatch) => {
         startedAt: null,
         rounds,
     };
-    const newGameRef = database().ref('/games').push();
+    const newGameRef = firebase.database().ref('/games').push();
     newGameRef.set(gameData);
     dispatch({ type: CREATE_GAME_SUCCESS });
 };
 
 export const getGame = id => (dispatch) => {
     dispatch({ type: GET_GAME_REQUEST });
-    database()
+    firebase.database()
         .ref('/games')
         .orderByChild('id')
         .equalTo(id)
@@ -47,10 +48,8 @@ export const getGame = id => (dispatch) => {
         });
 };
 
-export default getGame;
-
 export const startGame = gameKey => () => {
-    database()
+    firebase.database()
         .ref(`/games/${gameKey}/startedAt`)
         .set(Date.now());
 };
