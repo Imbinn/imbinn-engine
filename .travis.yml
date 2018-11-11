@@ -9,6 +9,6 @@ script:
     - yarn lint
     - yarn test:ci
     - yarn build
-    - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+    - yarn test:coverage
     - codecov
 
