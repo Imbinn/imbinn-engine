@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * `withRound` is a general wrapper for rounds that ensures meta properties and provides some round
- * functionalities.
+ * Use `withRound` to gain a general wrapper for rounds that ensures meta properties and provides
+ * some round functionalities.
  * @param {React.Element} WrappedComponent The component to be wrapped.
  */
 const withRound = WrappedComponent => (
