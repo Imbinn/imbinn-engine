@@ -5,8 +5,12 @@ cache:
   yarn: true
   directories:
     - .npm
+install:
+    - npm install -g codecov
 script:
     - yarn lint
     - yarn test:ci
     - yarn build
+    - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+    - codecov
 
