@@ -24,6 +24,10 @@ class HomeContainer extends Component {
         getRounds();
     }
 
+    onJoinGame = () => {
+        this.props.history.push('/play');
+    }
+
     onCreateGame = async () => {
         const {
             history,
@@ -49,6 +53,7 @@ class HomeContainer extends Component {
         <Home
             {...this.props}
             onCreateGame={this.onCreateGame}
+            onJoinGame={this.onJoinGame}
         />
     );
 }

@@ -29,26 +29,40 @@ export const createGame = (id, rounds) => async (dispatch) => {
 
 export const getGame = id => (dispatch) => {
     dispatch({ type: GET_GAME_REQUEST });
-    firebase.database()
-        .ref('/games')
-        .orderByChild('id')
-        .equalTo(id)
-        .on('value', (snapshot) => {
-            const game = snapshot.val();
-            if (!game) {
-                dispatch({ type: GET_GAME_FAILURE });
-            }
 
-            const key = Object.keys(game)[0];
+    return new Promise((resolve) => {
+        firebase.database()
+            .ref('/games')
+            .orderByChild('id')
+            .equalTo(id)
+            .on('value', (snapshot) => {
+                const game = snapshot.val();
+                if (!game) {
+                    dispatch({ type: GET_GAME_FAILURE });
+                }
 
-            dispatch({
-                type: GET_GAME_SUCCESS,
-                data: {
+                const key = Object.keys(game)[0];
+                const data = {
                     key,
                     ...game[key],
-                },
+                };
+
+                dispatch({
+                    type: GET_GAME_SUCCESS,
+                    data,
+                });
+                resolve(data);
             });
-        });
+    });
+};
+
+export const joinGame = (gameKey, username) => async () => {
+    const newUserRef = await firebase
+        .database()
+        .ref(`games/${gameKey}/users`)
+        .push();
+
+    await newUserRef.set({ username });
 };
 
 export const startGame = gameKey => () => {
