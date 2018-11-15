@@ -12,8 +12,6 @@ export const mapStateToProps = state => ({
     isLoadingRounds: state.rounds.isLoading,
     error: state.rounds.error,
     rounds: state.rounds.data,
-    isLoadingRound: state.round.isLoading,
-    round: state.round.data,
 });
 
 export const withRoundsResource = (WrappedComponent) => {

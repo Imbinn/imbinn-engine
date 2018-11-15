@@ -8,6 +8,7 @@ import './App.css';
 
 import Home from './pages/Home';
 import Game from './pages/Game';
+import Play from './pages/Play';
 
 const App = () => (
     <Router>
@@ -19,6 +20,7 @@ const App = () => (
 
             <Route exact path="/" component={Home} />
             <Route path="/game/:gameId" component={Game} />
+            <Route path="/play" component={Play} />
         </React.Fragment>
     </Router>
 );

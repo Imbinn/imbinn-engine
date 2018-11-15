@@ -23,19 +23,22 @@
                 }
             ]
         },
-        "stages": {
-            "questioning": {
+        "stages": [
+            {
+                "name": "questioning",
                 "transition": 2000,
                 "duration": 5000
             },
-            "answering": {
+            {
+                "name": "answering",
                 "transition": 2000,
                 "duration": 10000
             },
-            "resulting": {
+            {
+                "name": "resulting",
                 "transition": 2000,
                 "duration": 10000
             }
-        }
+        ]
     }
 }

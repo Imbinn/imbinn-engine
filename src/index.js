@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleWare from 'redux-thunk';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 import './index.css';
 import App from './App';
@@ -11,13 +11,12 @@ import { firebaseConfig } from './config/firebase';
 
 // reducers
 import game from './stores/game/reducers';
-import { round, rounds } from './stores/rounds/reducers';
+import rounds from './stores/rounds/reducers';
 
 firebase.initializeApp(firebaseConfig);
 
 const rootReducer = combineReducers({
     game,
-    round,
     rounds,
 });
 
