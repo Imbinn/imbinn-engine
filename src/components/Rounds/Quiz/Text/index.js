@@ -1,4 +1,4 @@
 import QuizText from './layout';
-import withRound from '../../../RoundLoader/withRound';
+import withRound from '../../withRound';
 
 export default withRound(QuizText);

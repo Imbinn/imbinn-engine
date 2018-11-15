@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import Users from '../../components/Users';
-import RoundLoader from '../../components/RoundLoader';
+import RoundLoader from '../../components/Rounds/RoundLoader';
 
 export class Game extends React.PureComponent {
     static defaultProps = {
@@ -23,7 +23,7 @@ export class Game extends React.PureComponent {
             startedAt: PropTypes.number,
             finishedAt: PropTypes.number,
             users: PropTypes.shape(),
-            rounds: PropTypes.arrayOf(PropTypes.string),
+            rounds: PropTypes.arrayOf(PropTypes.shape()),
         }),
         getGame: PropTypes.func.isRequired,
         startGame: PropTypes.func.isRequired,
@@ -50,6 +50,8 @@ export class Game extends React.PureComponent {
             <React.Fragment>
                 {isLoadingGame && <span>Hleð upplýsingum um leik</span>}
 
+                {game && <Users users={game.users} />}
+
                 {game && !game.startedAt &&
                     <button onClick={() => startGame(game.key)}>Byrja</button>
                 }
@@ -59,7 +61,6 @@ export class Game extends React.PureComponent {
                         <div>
                             <div>Spilakóði: {game.id}</div>
                             <div>Ránd {game.currentRound + 1} / {game.rounds.length}</div>
-                            <Users users={game.users} />
                         </div>
                         <div>
                             <RoundLoader

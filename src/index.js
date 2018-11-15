@@ -11,13 +11,12 @@ import { firebaseConfig } from './config/firebase';
 
 // reducers
 import game from './stores/game/reducers';
-import { round, rounds } from './stores/rounds/reducers';
+import rounds from './stores/rounds/reducers';
 
 firebase.initializeApp(firebaseConfig);
 
 const rootReducer = combineReducers({
     game,
-    round,
     rounds,
 });
 

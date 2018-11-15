@@ -21,11 +21,25 @@ const withRound = WrappedComponent => (
             setStage: PropTypes.func.isRequired,
             game: PropTypes.shape({
                 key: PropTypes.string.isRequired,
+                currentStage: PropTypes.shape(),
             }).isRequired,
         }
 
-        componentDidMount = () => {
-            this.loadNextStage(0);
+        componentWillMount = () => {
+            const {
+                stages,
+                game: {
+                    currentStage,
+                },
+            } = this.props;
+
+            let indexToLoad = 0;
+
+            if (currentStage) {
+                indexToLoad = stages.findIndex(stage => stage.name === currentStage.name);
+            }
+
+            this.loadNextStage(indexToLoad);
         }
 
         loadNextStage = async (index) => {

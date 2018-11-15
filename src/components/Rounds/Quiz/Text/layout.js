@@ -25,11 +25,7 @@ class QuizText extends React.PureComponent {
                 ]).isRequired,
                 duration: PropTypes.number.isRequired,
             }),
-        }),
-    }
-
-    static defaultProps = {
-        game: null,
+        }).isRequired,
     }
 
     render() {
@@ -41,12 +37,17 @@ class QuizText extends React.PureComponent {
             game,
         } = this.props;
 
+        if (!game.currentStage) {
+            return <p>loading stage</p>;
+        }
+
         return (
             <div style={styles.container}>
-                {game && game.currentStage.name === 'questioning' &&
+                {game.currentStage.name === 'questioning' &&
                     <span>{question}</span>
                 }
-                {game && game.currentStage.name === 'answering' &&
+
+                {game.currentStage.name === 'answering' &&
                     <React.Fragment>
                         <span>{question}</span>
                         <Countdown duration={game.currentStage.duration} />

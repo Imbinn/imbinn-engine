@@ -11,7 +11,7 @@ class HomeContainer extends Component {
         history: PropTypes.shape().isRequired,
         createGame: PropTypes.func.isRequired,
         getRounds: PropTypes.func.isRequired,
-        rounds: PropTypes.arrayOf(PropTypes.string),
+        rounds: PropTypes.arrayOf(PropTypes.shape()),
     }
 
     static defaultProps = {
@@ -38,7 +38,9 @@ class HomeContainer extends Component {
             .substr(0, 6)
             .toUpperCase();
 
-        await createGame(id, rounds); // TODO: select a random subset of rounds
+        const randomRounds = rounds; // TODO: select a random subset of rounds
+
+        await createGame(id, randomRounds);
 
         history.push(`/game/${id}`);
     }

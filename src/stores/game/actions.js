@@ -20,8 +20,10 @@ export const createGame = (id, rounds) => async (dispatch) => {
         startedAt: null,
         rounds,
     };
-    const newGameRef = firebase.database().ref('/games').push();
-    newGameRef.set(gameData);
+
+    const newGameRef = await firebase.database().ref('/games').push();
+    await newGameRef.set(gameData);
+
     dispatch({ type: CREATE_GAME_SUCCESS });
 };
 
