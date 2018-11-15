@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import withGameResource from '../../stores/game/withGameResource';
+
 /**
  * Use `withRound` to gain a general wrapper for rounds that ensures meta properties and provides
  * some round functionalities.
@@ -13,14 +15,27 @@ const withRound = WrappedComponent => (
                 type: PropTypes.string.isRequired,
             }).isRequired,
             stages: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+            /**
+             * Sets the current stage of the game.
+             */
+            setStage: PropTypes.func.isRequired,
+            game: PropTypes.shape({
+                key: PropTypes.string.isRequired,
+            }).isRequired,
         }
 
         componentDidMount = () => {
             this.loadNextStage(0);
         }
 
-        loadNextStage = (index) => {
-            const { stages } = this.props;
+        loadNextStage = async (index) => {
+            const {
+                stages,
+                setStage,
+                game: {
+                    key,
+                },
+            } = this.props;
 
             // check if we're done with all the stages
             if (index === stages.length) {
@@ -29,22 +44,21 @@ const withRound = WrappedComponent => (
 
             const stage = stages[index];
 
-            this.setState({ stage }, () => {
-                setTimeout(() => {
-                    this.loadNextStage(index + 1);
-                }, stages[index].duration);
-            });
+            await setStage(key, stage);
+
+            setTimeout(() => {
+                this.loadNextStage(index + 1);
+            }, stages[index].duration);
         }
 
         render() {
             return (
                 <WrappedComponent
                     {...this.props}
-                    {...this.state}
                 />
             );
         }
     }
 );
 
-export default withRound;
+export default component => withGameResource(withRound(component));

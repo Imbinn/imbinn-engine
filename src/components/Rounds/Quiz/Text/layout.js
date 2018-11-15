@@ -16,17 +16,20 @@ class QuizText extends React.PureComponent {
                 }).isRequired,
             ).isRequired,
         }).isRequired,
-        stage: PropTypes.shape({
-            name: PropTypes.oneOf([
-                'questioning',
-                'answering',
-                'resulting',
-            ]),
+        game: PropTypes.shape({
+            currentStage: PropTypes.shape({
+                name: PropTypes.oneOf([
+                    'questioning',
+                    'answering',
+                    'resulting',
+                ]).isRequired,
+                duration: PropTypes.number.isRequired,
+            }),
         }),
     }
 
     static defaultProps = {
-        stage: null,
+        game: null,
     }
 
     render() {
@@ -35,18 +38,18 @@ class QuizText extends React.PureComponent {
                 question,
                 options,
             },
-            stage,
+            game,
         } = this.props;
 
         return (
             <div style={styles.container}>
-                {stage && stage.name === 'questioning' &&
+                {game && game.currentStage.name === 'questioning' &&
                     <span>{question}</span>
                 }
-                {stage && stage.name === 'answering' &&
+                {game && game.currentStage.name === 'answering' &&
                     <React.Fragment>
                         <span>{question}</span>
-                        <Countdown duration={stage.duration} />
+                        <Countdown duration={game.currentStage.duration} />
                         {options.map(option => <p key={option.option}>{option.option}</p>)}
                     </React.Fragment>
                 }

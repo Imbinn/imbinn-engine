@@ -16,6 +16,7 @@ export const createGame = (id, rounds) => async (dispatch) => {
         id,
         createdAt: Date.now(),
         currentRound: 0,
+        currentStage: null,
         startedAt: null,
         rounds,
     };
@@ -52,4 +53,16 @@ export const startGame = gameKey => () => {
     firebase.database()
         .ref(`/games/${gameKey}/startedAt`)
         .set(Date.now());
+};
+
+export const setRound = (gameKey, roundIndex) => () => {
+    firebase.database()
+        .ref(`/games/${gameKey}/currentRound`)
+        .set(roundIndex);
+};
+
+export const setStage = (gameKey, stage) => () => {
+    firebase.database()
+        .ref(`/games/${gameKey}/currentStage`)
+        .set(stage);
 };
