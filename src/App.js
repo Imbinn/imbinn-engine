@@ -9,6 +9,7 @@ import './App.css';
 import Home from './pages/Home';
 import Game from './pages/Game';
 import Play from './pages/Play';
+import Join from './pages/Join';
 
 const App = () => (
     <Router>
@@ -20,7 +21,8 @@ const App = () => (
 
             <Route exact path="/" component={Home} />
             <Route path="/game/:gameId" component={Game} />
-            <Route path="/play" component={Play} />
+            <Route exact path="/play" component={Join} />
+            <Route path="/play/:gameId" component={Play} />
         </React.Fragment>
     </Router>
 );

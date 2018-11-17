@@ -54,6 +54,10 @@ class QuizText extends React.PureComponent {
                         {options.map(option => <p key={option.option}>{option.option}</p>)}
                     </React.Fragment>
                 }
+
+                {game.currentStage.name === 'resulting' &&
+                    <span>RESULTING BABY</span>
+                }
             </div>
         );
     }

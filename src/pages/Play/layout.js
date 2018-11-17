@@ -1,29 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import RoundLoader from '../../components/Rounds/RoundLoader';
+
 class Play extends React.PureComponent {
     static propTypes = {
-        username: PropTypes.string.isRequired,
-        gameId: PropTypes.string.isRequired,
-        onJoinGame: PropTypes.func.isRequired,
-        handleInputChange: PropTypes.func.isRequired,
+        game: PropTypes.shape({
+            startedAt: PropTypes.number,
+            currentRound: PropTypes.number.isRequired,
+        }),
+    }
+
+    static defaultProps = {
+        game: null,
     }
 
     render() {
-        const {
-            username,
-            gameId,
-            onJoinGame,
-            handleInputChange,
-        } = this.props;
+        const { game } = this.props;
 
         return (
             <React.Fragment>
-                <span>Notandanafn</span>
-                <input type="text" value={username} onChange={(event) => { handleInputChange(event, 'username'); }} />
-                <span>Herbergiskóði</span>
-                <input type="text" value={gameId} onChange={(event) => { handleInputChange(event, 'gameId'); }} />
-                <button onClick={onJoinGame}>Spila</button>
+                {!game && <span>Hleð leik</span>}
+
+                {game && !game.startedAt &&
+                    <span>Leikur ekki enn hafinn!</span>
+                }
+
+                {game && game.startedAt &&
+                    <RoundLoader
+                        roundIndex={game.currentRound}
+                        gameRounds={game.rounds}
+                    />
+                }
             </React.Fragment>
         );
     }
