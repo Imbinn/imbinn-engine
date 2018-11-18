@@ -22,15 +22,17 @@ class Play extends React.PureComponent {
             <React.Fragment>
                 {!game && <span>Hleð leik</span>}
 
-                {game && !game.startedAt &&
-                    <span>Leikur ekki enn hafinn!</span>
+                {game && !game.startedAt
+                    && <span>Leikur ekki enn hafinn!</span>
                 }
 
-                {game && game.startedAt &&
-                    <RoundLoader
-                        roundIndex={game.currentRound}
-                        gameRounds={game.rounds}
-                    />
+                {game && game.startedAt
+                    && (
+                        <RoundLoader
+                            roundIndex={game.currentRound}
+                            gameRounds={game.rounds}
+                        />
+                    )
                 }
             </React.Fragment>
         );
