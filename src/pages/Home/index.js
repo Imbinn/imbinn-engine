@@ -25,7 +25,10 @@ class HomeContainer extends Component {
     }
 
     onJoinGame = () => {
-        this.props.history.push('/play');
+        const {
+            history,
+        } = this.props;
+        history.push('/play');
     }
 
     onCreateGame = async () => {

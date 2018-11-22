@@ -12,7 +12,10 @@ class Countdown extends React.Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if (prevProps.duration !== this.props.duration) {
+        const {
+            duration,
+        } = this.props;
+        if (prevProps.duration !== duration) {
             this.setState({
                 ...this.deriveStateFromProps(this.props),
             });
@@ -20,7 +23,10 @@ class Countdown extends React.Component {
     }
 
     componentWillUnmount = () => {
-        clearInterval(this.state.interval);
+        const {
+            interval,
+        } = this.state;
+        clearInterval(interval);
     }
 
     deriveStateFromProps = (props) => {
@@ -32,20 +38,22 @@ class Countdown extends React.Component {
         };
     }
 
-    createInterval = () =>
-        setInterval(() => {
-            const { timer } = this.state;
+    createInterval = () => setInterval(() => {
+        const { timer } = this.state;
 
-            if (timer > 0) {
-                this.setState({
-                    timer: timer - 1,
-                });
-            }
-        }, 1000);
+        if (timer > 0) {
+            this.setState({
+                timer: timer - 1,
+            });
+        }
+    }, 1000);
 
     render() {
+        const {
+            timer,
+        } = this.state;
         return (
-            <span>{this.state.timer}</span>
+            <span>{timer}</span>
         );
     }
 }

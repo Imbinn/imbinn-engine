@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const RoundLoader = props => (
-    <React.Fragment>
-        {props.children}
-    </React.Fragment>
-);
+class RoundLoader extends PureComponent {
+    static propTypes = {
+        children: PropTypes.element.isRequired,
+    };
 
-RoundLoader.propTypes = {
-    children: PropTypes.element.isRequired,
-};
+    render() {
+        const {
+            children,
+        } = this.props;
+        return (
+            <React.Fragment>
+                {children}
+            </React.Fragment>
+        );
+    }
+}
+
 
 export default RoundLoader;

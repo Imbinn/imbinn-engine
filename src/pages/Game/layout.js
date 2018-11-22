@@ -52,23 +52,34 @@ export class Game extends React.PureComponent {
 
                 {game && <Users users={game.users} />}
 
-                {game && !game.startedAt &&
-                    <button onClick={() => startGame(game.key)}>Byrja</button>
+                {game && !game.startedAt
+                    && <button type="button" onClick={() => startGame(game.key)}>Byrja</button>
                 }
 
-                {game && game.startedAt &&
-                    <div style={styles.container}>
-                        <div>
-                            <div>Spilakóði: {game.id}</div>
-                            <div>Ránd {game.currentRound + 1} / {game.rounds.length}</div>
+                {game && game.startedAt
+                    && (
+                        <div style={styles.container}>
+                            <div>
+                                <div>
+Spilakóði:
+                                    {game.id}
+                                </div>
+                                <div>
+Ránd
+                                    {game.currentRound + 1}
+                                    {' '}
+/
+                                    {game.rounds.length}
+                                </div>
+                            </div>
+                            <div>
+                                <RoundLoader
+                                    roundIndex={game.currentRound}
+                                    gameRounds={game.rounds}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <RoundLoader
-                                roundIndex={game.currentRound}
-                                gameRounds={game.rounds}
-                            />
-                        </div>
-                    </div>
+                    )
                 }
 
             </React.Fragment>
