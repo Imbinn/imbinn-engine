@@ -23,7 +23,7 @@ class Join extends React.PureComponent {
                 <input type="text" value={username} onChange={(event) => { handleInputChange(event, 'username'); }} />
                 <span>Herbergiskóði</span>
                 <input type="text" value={gameId} onChange={(event) => { handleInputChange(event, 'gameId'); }} />
-                <button onClick={onJoinGame}>Spila</button>
+                <button type="button" onClick={onJoinGame}>Spila</button>
             </React.Fragment>
         );
     }

@@ -15,6 +15,7 @@ export class RoundLoaderContainer extends PureComponent {
         gameRounds: PropTypes.arrayOf(PropTypes.object).isRequired,
     }
 
+<<<<<<< HEAD
     getRoundComponentByType = round =>
         React.createElement(
             ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type],
@@ -23,6 +24,12 @@ export class RoundLoaderContainer extends PureComponent {
                 ...round,
             },
         )
+=======
+    getRoundComponentByType = round => React.createElement(
+        ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type],
+        { ...round },
+    )
+>>>>>>> db23e6cc1315fe87f5e13aa6b26a03fd17547024
 
     render() {
         const {

@@ -52,10 +52,11 @@ class QuizText extends React.PureComponent {
 
         return (
             <div style={styles.container}>
-                {game.currentStage.name === 'questioning' &&
-                    <span>{question}</span>
+                {game.currentStage.name === 'questioning'
+                    && <span>{question}</span>
                 }
 
+<<<<<<< HEAD
                 {game.currentStage.name === 'answering' &&
                     <React.Fragment>
                         <span>{question}</span>
@@ -74,10 +75,20 @@ class QuizText extends React.PureComponent {
                             options.map(option => <p key={option.option}>{option.option}</p>)
                         }
                     </React.Fragment>
+=======
+                {game.currentStage.name === 'answering'
+                    && (
+                        <React.Fragment>
+                            <span>{question}</span>
+                            <Countdown duration={game.currentStage.duration} />
+                            {options.map(option => <p key={option.option}>{option.option}</p>)}
+                        </React.Fragment>
+                    )
+>>>>>>> db23e6cc1315fe87f5e13aa6b26a03fd17547024
                 }
 
-                {game.currentStage.name === 'resulting' &&
-                    <span>RESULTING BABY</span>
+                {game.currentStage.name === 'resulting'
+                    && <span>RESULTING BABY</span>
                 }
             </div>
         );
