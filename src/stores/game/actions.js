@@ -82,3 +82,12 @@ export const setStage = (gameKey, stage) => () => {
         .ref(`/games/${gameKey}/currentStage`)
         .set(stage);
 };
+
+export const setMeta = (gameKey, roundIndex, pathForMeta, meta) => async () => {
+    const newMetaRef = await firebase.database()
+        .ref(`/games/${gameKey}/rounds/${roundIndex}/meta/${pathForMeta}`)
+        .push();
+
+    newMetaRef.set(meta);
+};
+

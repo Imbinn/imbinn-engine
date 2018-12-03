@@ -13,8 +13,6 @@ export const getRounds = () => async (dispatch) => {
     dispatch({ type: GET_ROUNDS_REQUEST });
     firebase.database().ref('/rounds')
         .once('value', (snapshot) => {
-            // const rounds = [];
-            // snapshot.forEach(roundSnap => rounds.push(roundSnap.val()));
             dispatch({
                 type: GET_ROUNDS_SUCCESS,
                 data: snapshot.val(),

@@ -26,6 +26,13 @@ class QuizText extends React.PureComponent {
                 duration: PropTypes.number.isRequired,
             }),
         }).isRequired,
+        onAnswer: PropTypes.func,
+        playable: PropTypes.bool,
+    }
+
+    static defaultProps = {
+        onAnswer: () => {},
+        playable: false,
     }
 
     render() {
@@ -35,6 +42,8 @@ class QuizText extends React.PureComponent {
                 options,
             },
             game,
+            playable,
+            onAnswer,
         } = this.props;
 
         if (!game.currentStage) {
@@ -51,7 +60,19 @@ class QuizText extends React.PureComponent {
                     <React.Fragment>
                         <span>{question}</span>
                         <Countdown duration={game.currentStage.duration} />
-                        {options.map(option => <p key={option.option}>{option.option}</p>)}
+                        {playable &&
+                            options.map(option => (
+                                <button
+                                    key={option.option}
+                                    onClick={() => onAnswer(option)}
+                                >
+                                    {option.option}
+                                </button>
+                            ))
+                        }
+                        {!playable &&
+                            options.map(option => <p key={option.option}>{option.option}</p>)
+                        }
                     </React.Fragment>
                 }
 

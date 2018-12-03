@@ -18,7 +18,10 @@ export class RoundLoaderContainer extends PureComponent {
     getRoundComponentByType = round =>
         React.createElement(
             ROUND_TYPE_TO_COMPONENT[round.type][round.meta.type],
-            { ...round },
+            {
+                ...this.props,
+                ...round,
+            },
         )
 
     render() {

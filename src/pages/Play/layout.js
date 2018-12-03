@@ -28,6 +28,7 @@ class Play extends React.PureComponent {
 
                 {game && game.startedAt &&
                     <RoundLoader
+                        playable
                         roundIndex={game.currentRound}
                         gameRounds={game.rounds}
                     />
